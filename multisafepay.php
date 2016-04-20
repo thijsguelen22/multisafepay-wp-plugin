@@ -10,39 +10,39 @@ ob_start();
 * License: A "Slug" license name e.g. GPL12
 */
 
-function include_PaymentTools(){
+function manysafepay_function() {
   include('config/config.php');
   include('controllers/idealController.php');
   $ideal = new idealController();
   $issuers = $ideal->getIssuers();
-  return '<p>'.$issuers.'</p>';
-}
-add_shortcode('include_PaymentTools', 'include_PaymentTools');
-$_SESSION['body'] = '<div id="body-wrapper">
+  $out = '<div id="body-wrapper">
       <div id="main-wrapper">
         <div id="container">
           <div class="content-description left-align">
-            <h1 class="black">You have selected direct iDEAL to test an iDEAL transaction</h1>
-            <br />
-
-            <p>Normally, when you have selected iDEAL as a payment method then you should be able to select the iDEAL issuer during the checkout process. This page simulates that page and would normally be the payment selection or checkout page.</p>
-            <br>
             <br />
             <img src="../../wp-content/plugins/multisafepay/assets/images/iDEAL-groot.gif" />
-            <p>You have selected iDEAL, please select your issuer and start your transaction</p>
-            <form action="../../wp-content/plugins/multisafepay/controllers/idealController.php?task=directTransaction" method="GET">
+            <p>Kies het gewenste bedrag en je bank</p>
+            <form action="" method="POST">
 			bedrag:<br />
-            <input type="text" name="amount" />
-			[include_PaymentTools]
-              <br />
+            <input type="text" name="amount" placeholder="bedrag in euro'."'".'s"/><br />'.$issuers.'<br />
               <br />	
-              <input type="submit" value="Start transaction" class="submitbutton"/>
+              <input name="versturen" type="submit" value="Start transaction" class="submitbutton"/>
             </form>
             <br/>
           </div>
         </div>
       </div>
     </div>';
+	if(isset($_POST['versturen']) && isset($_POST['amount'])){
+		$amount = $_POST['amount'] * 100;
+		$issuer = $_POST['issuer'];
+		header("Location: ../../wp-content/plugins/multisafepay/controllers/idealController.php?task=directTransaction&issuer=".$issuer."&amount=".$amount);
+	} else {
+	return $out;
+	}
+}
+add_shortcode('manysafepay', 'manysafepay_function');
+$_SESSION['body'] = '[manysafepay]';
 
 function create_multisafepay()
   {
