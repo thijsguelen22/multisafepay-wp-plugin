@@ -10,7 +10,7 @@ ob_start();
 * License: A "Slug" license name e.g. GPL12
 */
 
-function manysafepay_function() {
+function multisafepay_function() {
   include('config/config.php');
   include('controllers/idealController.php');
   $ideal = new idealController();
@@ -41,8 +41,8 @@ function manysafepay_function() {
 	return $out;
 	}
 }
-add_shortcode('manysafepay', 'manysafepay_function');
-$_SESSION['body'] = '[manysafepay]';
+add_shortcode('multisafepay', 'multisafepay_function');
+$_SESSION['body'] = '[multisafepay]';
 
 function create_multisafepay()
   {
