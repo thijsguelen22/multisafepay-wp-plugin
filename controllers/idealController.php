@@ -4,7 +4,7 @@
 require_once dirname(__FILE__) . "/../models/API/Autoloader.php";
 
 //load config
-if (file_exists("./config/config.php")) {
+if (file_exists("config/config.php")) {
   include("config/config.php");
 } else {
   include("config.php");
